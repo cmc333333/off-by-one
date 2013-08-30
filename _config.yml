@@ -1,5 +1,6 @@
-name: Your New Jekyll Site
+name: Off-by-One
 markdown: redcarpet
 safe: true
 lsi: false
 pygments: true
+url: http://cmc333333.github.io/off-by-one
