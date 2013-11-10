@@ -4,3 +4,6 @@ safe: true
 lsi: false
 pygments: true
 url: http://cmc333333.github.io/off-by-one
+
+prose:
+    siteurl: http://off-by-one-mag.github.io/issue-1/
