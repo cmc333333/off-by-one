@@ -1,7 +1,9 @@
 ---
 layout: post
 title: Constraint Programming
+published: true
 ---
+
 A large part of our task as developers involves searching - or rather,
 describing how the *computer* should be searching. In the worst situations,
 we need to describe the search algorithm verbatim, perhaps implementing a
@@ -156,7 +158,6 @@ great for development and learning constraint programming basics.
 
 ## Resources
 
-* Minizinc and its tutorial
-* Coursera class
-* Gecode
-* Libraries
+* Minizinc: [site](http://www.minizinc.org/), [tutorial](http://www.minizinc.org/downloads/doc-latest/minizinc-tute.pdf)
+* Coursera's [Discrete Optimization](https://www.coursera.org/course/optimization) course (from Pascal Van Hentenryck)
+* Gecode's [flatzinc plugin](http://www.gecode.org/flatzinc.html)
