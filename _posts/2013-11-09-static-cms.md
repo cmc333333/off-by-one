@@ -71,7 +71,10 @@ Many sites cannot rely on static assets alone. Users expect new content to be au
 
 Here, client-side Javascript will give us an easy path to recreating these features. Including JS from tools like Disqus and Wufoo give you commenting and other types of forms. Ajax calls to APIs allow you to recreate site-search, chat, and many of the other interactive features we expect from modern sites.
 
+Ultimately, continuously updating content and user-triggered dynamism are not static sites' sweet spot. Finding the right balance between static and dynamic content will depend on each project. The latest wave in static site generators have simply made it easier to swing their way.
+
 ## Resources
 
 * Jekyll and Nanoc
 * Github pages
+* Tools for dynamic content
