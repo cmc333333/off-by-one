@@ -67,9 +67,9 @@ clicks better for my programmer mind, and feels much more flexible.
 
 ## Dynamism
 
-Many sites cannot rely on static assets alone. Users expect new content to be automatically posted; they expect to be able to leave contents; they expect to perform searches and email links from within your application. None of these features seems to mesh with the static page generation described thusfar. How can we have a CMS without these abilities?
+Many sites cannot rely on static assets alone. Users expect new content to be automatically posted; they expect to be able to leave contents; they expect to perform searches and email links from within your application. None of these features seems to mesh with the static page generation described thusfar. How can we have a CMS without these abilities? Luckily, you don't need to.
 
-Luckily, you don't need to.
+Here, client-side Javascript will give us an easy path to recreating these features. Including JS from tools like Disqus and Wufoo give you commenting and other types of forms. Ajax calls to APIs allow you to recreate site-search, chat, and many of the other interactive features we expect from modern sites.
 
 ## Resources
 
