@@ -6,9 +6,43 @@ published: true
 
 Consider the game of Sudoku, most commonly played on a nine-by-nine grid of cells, where each cell may contain the integers 1 through 9. The game stipulates that each row must contain only unique elemenets, as must each column, and each of the nine, three-by-three sub-boards. Individual games are played with some cells on the board initially occupied, leaving the player to deduce the remaining cell values.
 
-We can be more specific than "deduce"; as when we play we are most likely *reducing* the number of options each cell may take. We realize that each rule - that rows contain distinct values, etc. - *constrains* the values of the cells it affects. Winning the game equates to finding a set of cell values that violates none of those rules. 
+We can be more specific than "deduce"; as when we play we are most likely *reducing* the number of options each cell may take. We realize that each rule - that rows contain distinct values, etc. - *constrains* the values of the cells it affects. Winning the game equates to finding a set of cell values that violates none of those rules. Shouldn't it be possible for us to simply define the rules and have the computer do the searching? Surely it will implement something more effecient than our naive solutions.
 
+This is the promise of constraint programming (a type of declarative programming.) To introduce it further, let's look at one of the more common implementations: SQL.
 
+## SQL Sudoku
+
+By implementing Sudoku in SQL, we will see some of the high-level concepts that reappear throughout constraint programming. We will also encounter several pain-points with our SQL implementation which we can smooth-over by using a more general-purpose constraint language.
+
+Let's start by creating a domain for each cell, i.e. the set of all possible values an arbitrary cell could contain (1-9).
+
+```
+CREATE TABLE domain (v int);
+
+INSERT INTO domain VALUES (1); INSERT INTO domain VALUES (2);
+INSERT INTO domain VALUES (3); INSERT INTO domain VALUES (4);
+INSERT INTO domain VALUES (5); INSERT INTO domain VALUES (6);
+INSERT INTO domain VALUES (7); INSERT INTO domain VALUES (8);
+INSERT INTO domain VALUES (9);
+```
+
+A row consists of nine of these values such that each cell's value is different. I couldn't think of a way to encode these required differences more elegantly than comparing each pair of values (a problem we'll run into again shortly.)
+
+```
+CREATE TABLE sudokurow 
+  (c1 int, c2 int, c3 int, c4 int, c5 int, c6 int, c7 int, c8 int, c9 int);
+
+INSERT INTO sudokurow
+  SELECT d1.v as c1, d2.v as c2, ...    -- Each cell
+  FROM domain as d1, domain as d2, ...
+  WHERE
+    c1 <> c2 and c1 <> c3 and ...       -- c1 is distinct
+    and c2 <> c3 and c2 <> c4 and ...   -- c2 is distinct
+    ...
+    and c8 <> c9                        -- c8 and c9 are distinct
+;
+```
+---
 A large part of our task as developers involves searching - or rather,
 describing how the *computer* should be searching. In the worst situations,
 we need to describe the search algorithm verbatim, perhaps implementing a
@@ -22,14 +56,6 @@ constraints on those variables -- the constraint solver will go away to find
 the solutions for you.
 
 ## Sudoku
-
-Let's first consider the puzzle game, Sudoku. In its simplest form, this game
-has a 9-by-9 grid serving as its board of play. The constraints on the board
-are that each cell on the board must contain a number from 1 to 9, each cell
-within a row must contain a different number, each cell within a column must
-be likewise unique, and that each of the nine 3-by-3 sub-grids must also
-contain distinct cell values. To make the game fun, several of the cells are
-provided for the player, further constraining the game.
 
 You can see how each of these specifications maps into one or more
 constraints. We start with the board it self; each cell must be an integer
