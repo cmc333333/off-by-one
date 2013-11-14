@@ -4,14 +4,8 @@ published: true
 
 Despite the recent advances and enthusiasm in the database space, there is a growing segment of developers who argue that dynamically generated content is overkill for most web sites. Individual blogs, brochure websites, and other content publishing sites are incredibly read heavy, and their content changes very infrequently. Further, modern content management systems (CMSes) require constant vigilance as new-found vulnerabilities are found each day and incompatible versions are released every few years.
 
-Statically generated sites solve or alleviate many of these problems and add
-some noteworthy additions. Instead of fetching content with each page
-request, they need it only once, at compile time. Pages are most often
-generated as flat HTML files -- there are no logins, no public-facing cgi scripts, and no need for application hardening. Versioning of your content
-becomes trivial as both the content files and their generated output can
-live in version control. As a cherry on top, removing the need for a server-side scripting language will not only improve page load times, it will also
-reduce hosting prices. GitHub hosts thousands of static sites free of
-charge.
+An alternative has emerged via statically generated sites, which aim to solve or alleviate many of these problems. Instead of fetching content from a database or API with each page request, they need it only once, at compile time. Pages are most often generated as flat HTML files, giving you a complete, file-system-based page cache. There are no logins, no public-facing cgi scripts, and no need for application hardening. Versioning of your content becomes trivial as both the content files and their generated output can live in version control. To top it off, removing the need for a server-side scripting language will not only improve page load times, it will also
+reduce hosting prices. GitHub hosts thousands of static sites free of charge.
 
 ## Content
 
