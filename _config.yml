@@ -4,12 +4,7 @@ safe: true
 lsi: false
 pygments: true
 url: http://off-by-one-mag.github.io/issue-1
+permalink: :title/
 
-prose:
-  metadata:
-    _posts:
-      - name: "permalink"
-        field:
-          element: "hidden"
-          value: ":title/"
+#prose:
 #    siteurl: http://off-by-one-mag.github.io/issue-1/
