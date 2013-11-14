@@ -2,13 +2,7 @@
 published: true
 ---
 
-# Static CMSes
-
-Despite the recent resurgence in enthusiasm in the database space, there is
-a growing segment of developers who argue that dynamically generated content
-is overkill for most web sites. Individual blogs, brochure websites, and
-other content publishing sites are incredibly read heavy, and their content
-changes very infrequently. Worse, modern CMSes require constant vigilance with regards to patching as new vulnerabilities are found each day.
+Despite the recent advances and enthusiasm in the database space, there is a growing segment of developers who argue that dynamically generated content is overkill for most web sites. Individual blogs, brochure websites, and other content publishing sites are incredibly read heavy, and their content changes very infrequently. Further, modern content management systems (CMSes) require constant vigilance as new-found vulnerabilities are found each day and incompatible versions are released every few years.
 
 Statically generated sites solve or alleviate many of these problems and add
 some noteworthy additions. Instead of fetching content with each page
