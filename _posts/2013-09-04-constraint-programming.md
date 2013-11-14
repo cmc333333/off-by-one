@@ -1,4 +1,5 @@
 ---
+permalink: none
 layout: post
 title: "SQL Sudoku: Constraint Programming"
 published: true
