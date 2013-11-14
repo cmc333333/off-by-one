@@ -11,5 +11,5 @@ prose:
       - name: "permalink"
         field:
           element: "hidden"
-          value: "none"
+          value: ":title/"
 #    siteurl: http://off-by-one-mag.github.io/issue-1/
