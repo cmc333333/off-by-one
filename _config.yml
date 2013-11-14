@@ -4,6 +4,7 @@ safe: true
 lsi: false
 pygments: true
 url: http://off-by-one-mag.github.io/issue-1
+permalink: none
 
 #prose:
 #    siteurl: http://off-by-one-mag.github.io/issue-1/
