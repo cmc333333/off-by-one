@@ -17,16 +17,16 @@ By implementing Sudoku in SQL, we will see some of the high-level concepts that 
 Let's start by creating a domain for each cell, i.e. the set of all possible values an arbitrary cell could contain (1-9).
 
 ```
-CREATE TABLE domain (v int);
+CREATE TABLE cell_domain (v int);
 
-INSERT INTO domain VALUES (1); INSERT INTO domain VALUES (2);
-INSERT INTO domain VALUES (3); INSERT INTO domain VALUES (4);
-INSERT INTO domain VALUES (5); INSERT INTO domain VALUES (6);
-INSERT INTO domain VALUES (7); INSERT INTO domain VALUES (8);
-INSERT INTO domain VALUES (9);
+INSERT INTO cell_domain VALUES (1); INSERT INTO cell_domain VALUES (2);
+INSERT INTO cell_domain VALUES (3); INSERT INTO cell_domain VALUES (4);
+INSERT INTO cell_domain VALUES (5); INSERT INTO cell_domain VALUES (6);
+INSERT INTO cell_domain VALUES (7); INSERT INTO cell_domain VALUES (8);
+INSERT INTO cell_domain VALUES (9);
 ```
 
-A row consists of nine of these values such that each cell's value is different. I couldn't think of a way to encode these required differences more elegantly than comparing each pair of values (a problem we'll run into again shortly.)
+A row consists of nine of these values such that each cell's value is different. I couldn't think of a way to encode these required differences more elegantly than comparing each pair of values (a problem we'll run into again shortly.) Again, we're defining the *domain* of a sudoku row. Each SQL entry represents one possible sudoku row.
 
 ```
 CREATE TABLE sudokurow 
@@ -34,7 +34,7 @@ CREATE TABLE sudokurow
 
 INSERT INTO sudokurow
   SELECT d1.v as c1, d2.v as c2, ...    -- Each cell
-  FROM domain as d1, domain as d2, ...
+  FROM cell_domain as d1, cell_domain as d2, ...
   WHERE
     c1 <> c2 and c1 <> c3 and ...       -- c1 is distinct
     and c2 <> c3 and c2 <> c4 and ...   -- c2 is distinct
@@ -42,30 +42,48 @@ INSERT INTO sudokurow
     and c8 <> c9                        -- c8 and c9 are distinct
 ;
 ```
----
-A large part of our task as developers involves searching - or rather,
-describing how the *computer* should be searching. In the worst situations,
-we need to describe the search algorithm verbatim, perhaps implementing a
-specialized binary search or walking along a social graph to find clusters
-of friends. These tasks are much simpler when we can rely on query languages
-like SQL, regular expressions and CSS selectors because we need only define
-search "criteria" and we can let the search system choose the best
-implementation. Constraint programming takes this improvement to an extreme,
-requiring that users supply only a list of variables and a list of
-constraints on those variables -- the constraint solver will go away to find
-the solutions for you.
 
-## Sudoku
+Now that we have rows, we can implement a representation of the sudoku board. As there are far too many possible sudoku boards (i.e. the domain is too large) to materialize, we'll use an SQL view to represent the sudoku board domain. Again, we'll have pair-wise distinction, which means a ***lot*** of inequalities.
 
-You can see how each of these specifications maps into one or more
-constraints. We start with the board it self; each cell must be an integer
-between 1 and 9:
+```
+CREATE VIEW board AS
+  SELECT
+  r1.c1 as c11, r1.c2 as c12, ...
+  ... r9.c8 as c98, r9.c9 as c99
+  FROM
+    sudokurow as r1, sudokurow as r2, ...
+  WHERE
+    -- Columns
+    c11 <> c21 and c11 <> c31 ...
+        and c21 <> c31 and c21 <> c41 ...
+    ...
+    c19 <> c29 and c19 <> c39 ...
+        and c29 <> c39 and c29 <> c49 ...
+    
+    -- Sub squares (all nine)
+    and c11 <> c22 and c11 <> c23 ...
+    ...
+;
+```
+
+Solving for a particular sudoku board becomes as simple as running a select query with the initial configuration in the "where" clause:
+
+```
+SELECT * FROM board WHERE c11 = 1 and c22 = 2 and ...;
+```
+
+## Add Zinc to Your Diet
+
+My go-to tool for constraint programming is the Zinc suite. Minizinc is an
+open source, high-level language for describing constrained problems; its source files get compiled into a neutral (but lower-level) language called Flatzinc. Flatzinc files can then be read and solved by one of many constraint-solvers, as there are many potential search implementations. To make an analogy, Minizinc is the source code, Flatzinc is the virtual-machine byte-code, and the solvers are the operating-system-specific runtime environments.
+
+Let's see how sudoku fits into Minizinc. We begin with a sudoku board, which consist of 9x9 cells each varying between the integers 1 and 9.
 
 ```
 array[1..9, 1..9] of var 1..9: board;
 ```
 
-Next, we add constraints to represent limitations on rows and columns:
+Next, we add constraints to represent limitations on rows and columns. Note how much cleaner this is than the SQL implementation.
 
 ```
 constraint forall (row in 1..9)
@@ -74,9 +92,7 @@ constraint forall (col in 1..9)
     (alldifferent (row in 1..9) (board[row, col]));
 ```
 
-as well as the constraints for each subgrid containing distinct values. The
-description below is overly explicit for clarity -- we could easily use for
-loops to attain the same result.
+We also add constraints for each subgrid containing distinct values. The description below is overly explicit for clarity -- we could easily use for loops to attain the same result.
 
 ```
 constraint (
@@ -92,26 +108,45 @@ constraint (
 );
 ```
 
-Finally, we need to add a constraint for the grid's initial configuration,
-i.e. the values which we were given:
+Finally, we need to add a constraint for the grid's initial configuration, i.e. the values which we were given:
 
 ```
 constraint (
-     board[1, 4] = 5 
-  /\ board[2, 1] = 6 /\ board[2, 3] = 8 /\ board[2, 9] = 9
-  /\ board[3, 2] = 4 /\ board[3, 4] = 3 /\ board[3, 8] = 1 /\ board[3, 9] = 2
-  /\ board[4, 2] = 3 /\ board[4, 3] = 1 /\ board[4, 4] = 2
-  /\ board[5, 4] = 6 /\ board[5, 5] = 1 /\ board[5, 6] = 7
-  /\ board[6, 6] = 3 /\ board[6, 7] = 8 /\ board[6, 8] = 5
-  /\ board[7, 1] = 3 /\ board[7, 2] = 7 /\ board[7, 6] = 4 /\ board[7, 8] = 6
-  /\ board[8, 1] = 4 /\ board[8, 7] = 7 /\ board[8, 9] = 5
-  /\ board[9, 6] = 2
+     board[1, 1] = 1 /\ board[2, 2] = 2 /\ ... 
 );
 ```
+
+---
 
 The full example, including Minizinc requirements, solver, and output is
 [available](sudoku.mzn), but this description should give you a sense of how
 constraints are defined.
+
+
+To use Minizinc within your application, you will most likely need your
+application to write a Minizinc source file. Your app can then shell out to
+one of the single-shot compiler/executors and read the results - you will
+most likely be able to read the output as JSON. This approach is
+particularly appealing during development, when having direct access to the
+minizinc input files and compilers will make debugging simpler. For a
+production app, you will most likely want to switch over to a lower level
+library (such as Gecode) for the performance improvement, but Minizinc is
+great for development and learning constraint programming basics.
+
+
+
+---
+A large part of our task as developers involves searching - or rather,
+describing how the *computer* should be searching. In the worst situations,
+we need to describe the search algorithm verbatim, perhaps implementing a
+specialized binary search or walking along a social graph to find clusters
+of friends. These tasks are much simpler when we can rely on query languages
+like SQL, regular expressions and CSS selectors because we need only define
+search "criteria" and we can let the search system choose the best
+implementation. Constraint programming takes this improvement to an extreme,
+requiring that users supply only a list of variables and a list of
+constraints on those variables -- the constraint solver will go away to find
+the solutions for you.
 
 ## Throwing Out the Chaff
 
@@ -166,26 +201,6 @@ Decisions may ultimately lead to an invalid or "failed" configuration, which
 indicates when to unwind the decision stack, and certain search strategies
 (e.g. binary search) may "guess" in a more efficient order.
 
-## Add Zinc to Your Diet
-
-My go-to tool for constraint programming is the Zinc suite. Minizinc is an
-open source, high-level language for describing constrained problems such
-that they can be solved by multiple solvers. The sudoku example above was
-written in Minizinc. Minizinc files get compiled into Flatzinc, which is
-then fed into any of a large number of compppatible solvers. Downloading
-Minizinc gives you access to the Flatzinc compiler directly, but also
-provides wrapper scripts to compile and then execute within a single
-command.
-
-To use Minizinc within your application, you will most likely need your
-application to write a Minizinc source file. Your app can then shell out to
-one of the single-shot compiler/executors and read the results - you will
-most likely be able to read the output as JSON. This approach is
-particularly appealing during development, when having direct access to the
-minizinc input files and compilers will make debugging simpler. For a
-production app, you will most likely want to switch over to a lower level
-library (such as Gecode) for the performance improvement, but Minizinc is
-great for development and learning constraint programming basics.
 
 ## Resources
 
