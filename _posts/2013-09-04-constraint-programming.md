@@ -4,8 +4,9 @@ title: "SQL Sudoku: Constraint Programming"
 published: true
 ---
 
-# SQL Sudoku: Constraint Programming
 Consider the game of Sudoku, most commonly played on a nine-by-nine grid of cells, where each cell may contain the integers 1 through 9. The game stipulates that each row must contain only unique elemenets, as must each column, and each of the nine, three-by-three sub-boards. Individual games are played with some cells on the board initially occupied, leaving the player to deduce the remaining cell values.
+
+We can be more specific than "deduce"; as when we play we are most likely *reducing* the number of options each cell may take. We realize that each rule - that rows contain distinct values, etc. - *constrains* the values of the cells it affects. Winning the game equates to finding a set of cell values that violates none of those rules. 
 
 
 A large part of our task as developers involves searching - or rather,
