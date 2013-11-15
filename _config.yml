@@ -10,6 +10,11 @@ prose:
     metadata:
         _posts:
             - name: "layout"
-              field: "hidden"
-              value: "post"
+              field: 
+                  element: "hidden"
+                  value: "post"
+            - name: "title"
+              field:
+                  element: "text"
+                  label: "Title"
 #    siteurl: http://off-by-one-mag.github.io/issue-1/
