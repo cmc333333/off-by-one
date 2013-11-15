@@ -24,14 +24,15 @@ An alternative which I've grown to prefer is Nanoc, also written in Ruby. Unlike
 
 ## Dynamism
 
-Many sites cannot rely on static assets alone. Users expect new content to be automatically posted; they expect to be able to leave contents; they expect to perform searches and email links from within your application. None of these features seems to mesh with the static page generation described thusfar. How can we have a CMS without these abilities? Luckily, you don't need to.
+This is a bit too idealistic, however, as many sites cannot rely on static assets alone. Users expect new content to be automatically posted; they expect to be able to leave comments; to perform searches and email links from within your application. None of these features seems to mesh with the static page generation described thusfar. How can we have a CMS without these abilities? Luckily, we don't need to.
 
-Here, client-side Javascript will give us an easy path to recreating these features. Including JS from tools like Disqus and Wufoo give you commenting and other types of forms. Ajax calls to APIs allow you to recreate site-search, chat, and many of the other interactive features we expect from modern sites.
+Here, client-side solutions will give us an easy path to recreating these features. We can include iframes or redirection to third-parties for Eventbright signups or Paypal processing. We can load JS from tools like Disqus and Wufoo to give us commenting and other types of forms. Ajax calls to other APIs allow us to recreate site-search, chat, and many of the other interactive features we expect from modern web applications. You did design your app API-first, right?
 
-Ultimately, continuously updating content and user-triggered dynamism are not static sites' sweet spot. Finding the right balance between static and dynamic content will depend on each project. The latest wave in static site generators have simply made it easier to swing their way.
+Ultimately, continuously updating content and user-triggered dynamism are not static sites' sweet spot. Finding the right balance between static and dynamic content will depend on each project. The latest wave in static site generators have simply made it easier to swing their way, so much so that I would strongly recommend their consideration in future projects. They are easier to maintain, simpler to understand, and more secure than Drupal, Wordpress, and their ilk; why not try it out?
 
 ## Resources
 
-* Jekyll and Nanoc
-* Github pages
-* Tools for dynamic content
+* Static Site Generators: [Jekyll](http://jekyllrb.com/) and [Nanoc](http://nanoc.ws/)
+* [Github pages](http://pages.github.com/)
+* Markdown editors: [Prose.io](http://prose.io) (a Github "cloud" editor), [Mou](http://mouapp.com/) for OSX
+* 3rd party dynamic content: [Disqus](http://disqus.com/) for comments, [Wufoo](http://www.wufoo.com/) for forms, [Tapir](http://tapirgo.com/) for search, Twitter's [JS Library](https://dev.twitter.com/docs/tfw-javascript) for tweets
