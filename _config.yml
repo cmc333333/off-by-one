@@ -6,5 +6,10 @@ pygments: true
 url: http://off-by-one-mag.github.io/issue-1
 permalink: :title/
 
-#prose:
+prose:
+    metadata:
+        _posts:
+            - name: "layout"
+              field: "hidden"
+              value: "post"
 #    siteurl: http://off-by-one-mag.github.io/issue-1/
