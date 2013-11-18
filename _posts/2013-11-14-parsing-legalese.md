@@ -18,9 +18,17 @@ Regular expressions allow you to describe the "shape" of text you would like to 
                        #   doesn't match "a" inside another word
 ```
 
-Regexes also let us *retreive* text from matches
+Regexes also let us *retrieve* matching text. In our example above, we could determine not only that a defined term was likely present but also what that term or phrase would be. Expressions may include multiple segments of retrieved text (known as "capture groups",) and advanced tools will provide deeper inspection such as segmenting out repeated expressions.
 
-## Parser Combinators: Not Actually Scary
+```
+"Appendix ([A-Z]\d*) to Part (\d+)"
+# Allows us to retrieve 'A6' and '2345' from
+# "Appendix A6 to Part 2345"
+```
+
+Regular expressions serve as both a low-ish level tool for parsing and as a building block on which almost all parsing libraries will build. Understanding them will help you debug problems with higher-level tools as well as know their fundamental limitations.
+
+## Parser Combinators: Not As Scary As They Sound
 
 ## What About Meaning?
 
