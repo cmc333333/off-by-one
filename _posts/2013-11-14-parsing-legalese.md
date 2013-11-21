@@ -30,6 +30,22 @@ Regular expressions serve as both a low-ish level tool for parsing and as a buil
 
 ## Parser Combinators: Not As Scary As They Sound
 
+Regular expressions certainly require additional mental overhead by future developers, as they must generally "run" the expression in their head to see what it does. Well-named expressions help a bit, but the syntax for naming capture groups in generally quite ugly. Further, combining expressions is error-prone and leads to even more indecipherable code.
+
+So-called "parser combinators" (i.e. parsers that can be combined) resolve or at least alleviate both of these issues. Combinators allow expressions to be named and easily combined to build larger expressions. The examples demonstrate these features using `pyparsing`, a parser combinator library for Python.
+
+```
+part = Word(digits).setResultsName("part")
+section = Word(digits).setResultsName("section")
+part_section = part + "." + section
+
+parsed = part_section.parseString("1234.56")
+assert(parsed.part == "1234")
+assert(parsed.section == "56")
+```
+
+Parser combinators allow us to match relatively sophisticated citations, such as phrases which include multiple references separated by conjunction text. The parameter `listAllMatches` tells pyparsing to "collect" all the phrases which match
+
 ## What About Meaning?
 
 ## XML: So Much Structure, So Little Meaning
