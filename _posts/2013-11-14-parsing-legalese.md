@@ -4,7 +4,7 @@ published: false
 title: "Parsing Legalese: Rules for Rules"
 ---
 
-One of the core contributions found in the recently released [eregs](http://eregs.github.io/eregulations) project is a plain-text parser for regulations, also known as rules. This parser pulls structure from the documents such that each paragraph can be properly index; it discoveres citations between the paragraphs and to external works; it determines definitions and even calculates differences between versions of the regulation. Due to the nature of the enterprise, we cannot leave room for probablistic methods employed via machine learning. Instead we retrieve all of the information through parsing, a rule-based approach to natural language processing.
+One of the core contributions found in the recently released [eregs](http://eregs.github.io/eregulations) project is a plain-text parser for regulations, also known as rules. This parser pulls structure from the documents such that each paragraph can be properly index; it discovers citations between the paragraphs and to external works; it determines definitions and even calculates differences between versions of the regulation. Due to the nature of the enterprise, we cannot leave room for probabilistic methods employed via machine learning. Instead we retrieve all of the information through parsing, a rule-based approach to natural language processing.
 
 ## XML: So Much Structure, So Little Meaning
 
@@ -16,7 +16,7 @@ While our current development relies more heavily on XML, our initial code base 
 
 Regular expressions are one of the building blocks of almost any text parser. While we won't discuss them in great detail (there are many, better resources available,) I will note that learning how to write simple regexes doesn't take much time at all. As you progress and want to match more and more, Google around; do to their wide spread use, it's basically guaranteed that someone's had the same problem.
 
-Regular expressions allow you to describe the "shape" of text you would like to match. For example, if a sentence has the the phrase "the term", followed by some text, followed by "means" we might assume that that sentence is defining a word or phrase. Regexes give us many tools to narrow down the shape of text, including special characters to indicate whitespace, the beginning and end of a line, and "word boundaries" like commas, spaces, etc.
+Regular expressions allow you to describe the "shape" of text you would like to match. For example, if a sentence has the phrase "the term", followed by some text, followed by "means" we might assume that that sentence is defining a word or phrase. Regexes give us many tools to narrow down the shape of text, including special characters to indicate whitespace, the beginning and end of a line, and "word boundaries" like commas, spaces, etc.
 
 ```
 "the term .* means"    # likely indicates a defined term
@@ -36,7 +36,7 @@ Regular expressions serve as both a low-ish level tool for parsing and as a buil
 
 ## When is an (i) not and (i)?
 
-Regulations generally follow a relatively struct hierarchy, where sections are broken into many levels of paragraphs and subparagraphs. The levels begin with the lower-case alphabet, then arabic numerals, followed by roman numerals, the upper-case alphabet, and then italic versions of many of these. Paragraphs each have a "marker", indicating where the paragraph begins and giving it a reference, but these markers may not always be at the beginning of a line. This means that, to find paragraphs, we'll need to search for markers *throughout* the line.
+Regulations generally follow a relatively strict hierarchy, where sections are broken into many levels of paragraphs and sub-paragraphs. The levels begin with the lower-case alphabet, then arabic numerals, followed by roman numerals, the upper-case alphabet, and then italic versions of many of these. Paragraphs each have a "marker", indicating where the paragraph begins and giving it a reference, but these markers may not always be at the beginning of a line. This means that, to find paragraphs, we'll need to search for markers *throughout* the line.
 
 It's not a simple matter of starting a new paragraph whenever a marker is found, however. Paragraph markers are also sprinkled throughout the regulation inside citations to *other* paragraphs. To solve this issue, we can run a citation parser (touched on shortly) to find the citations within a text and ignore paragraph markers found within them.
 
@@ -74,9 +74,9 @@ for cit in [citations.head] + citations.tail:
 
 ## What About Meaning?
 
-Thusfar, we have matched text, searched for markers, and retrieved sophisticated values out of the text. I can understand why this might feel like a bit of a let down - the parse isn't doing any magic. It doesn't know what sentences mean, it simply knows how to find and retrieve specific *kinds* of substrings. While I might argue that this is a foundation of understanding, let's do something fun instead.
+Thus far, we have matched text, searched for markers, and retrieved sophisticated values out of the text. I can understand why this might feel like a bit of a let down - the parse isn't doing any magic. It doesn't know what sentences mean, it simply knows how to find and retrieve specific *kinds* of substrings. While I might argue that this is a foundation of understanding, let's do something fun instead.
 
-The problem we face is to determine what has changed when a regulation is modified via a notice. Unfortunately, the pin-point accuracy that we need appears only in english phrases like 
+The problem we face is to determine what has changed when a regulation is modified via a notice. Unfortunately, the pin-point accuracy that we need appears only in English phrases like 
 ```
 4. Section 1005.32 is amended by revising paragraphs (b)(2)(ii) and (c)(3), adding paragraph (b)(3), revising paragraph (c)(4) and removing paragraph (c)(5) to read as follows
 ```
