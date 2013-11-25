@@ -8,7 +8,9 @@ One of the core contributions found in the recently released [eregs](http://ereg
 
 ## XML: So Much Structure, So Little Meaning
 
-We might start by 
+We might start by wondering, isn't this all available via XML? Surely, with a structured language such as XML defining a regulations, we don't have much to do, right? As Cornell [discovered](http://www.hklii.hk/conference/paper/2B3.pdf), not all XML documents are created equal. Their analysis cites both inconsistent markup as well as the more insidious structure without meaning. Referring to the documents as a "bag of tags" conveys the problem well; just because a document has formatting does not mean it follows a logical structure. In particular, documents consisting almost exclusively of header and paragraph tags are not much of a step up from plain text documents with new-line characters. Further, when the markup is incorrect, it's actually a bit *more* cumbersome than plain text, as the structure is misleading.
+
+While our current development relies more heavily on XML, our initial code base built on plain-text-only versions of the regulation. We continue to use plain text in many of our features, however, as it's easier to reason about. We continue with the assumption that the regulation is provided as a plain-text document.
 
 ## Regular Expressions: Regexi?
 
