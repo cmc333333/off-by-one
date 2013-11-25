@@ -6,6 +6,10 @@ title: "Parsing Legalese: Rules for Rules"
 
 One of the core contributions found in the recently released [eregs](http://eregs.github.io/eregulations) project is a plain-text parser for regulations, also known as rules. This parser pulls structure from the documents such that each paragraph can be properly index; it discoveres citations between the paragraphs and to external works; it determines definitions and even calculates differences between versions of the regulation. Due to the nature of the enterprise, we cannot leave room for probablistic methods employed via machine learning. Instead we retrieve all of the information through parsing, a rule-based approach to natural language processing.
 
+## XML: So Much Structure, So Little Meaning
+
+We might start by 
+
 ## Regular Expressions: Regexi?
 
 Regular expressions are one of the building blocks of almost any text parser. While we won't discuss them in great detail (there are many, better resources available,) I will note that learning how to write simple regexes doesn't take much time at all. As you progress and want to match more and more, Google around; do to their wide spread use, it's basically guaranteed that someone's had the same problem.
@@ -86,4 +90,4 @@ We next convert all passive verbs into their corresponding active form by changi
 
 Finally, we can step through our list of tokens, keeping track of which modification mode we are in. We'd see "Section 1005.32" first, but since we start with no mode set, we will ignore it. We then see "revising" and set our modification mode correspondingly. We can therefore mark each of the next two citations as "modified". We then hit an "adding" verb, so we switch modes and mark the following citation as "added". We continue this way, switching modes and marking citations until the whole sentence is parsed.
 
-## XML: So Much Structure, So Little Meaning
+With combinations of these tools, we can parse the structure of regulations, their citations, their definitions, changes between regulations, and much more.
