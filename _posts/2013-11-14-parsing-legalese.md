@@ -70,4 +70,20 @@ for cit in [citations.head] + citations.tail:
 
 Thusfar, we have matched text, searched for markers, and retrieved sophisticated values out of the text. I can understand why this might feel like a bit of a let down - the parse isn't doing any magic. It doesn't know what sentences mean, it simply knows how to find and retrieve specific *kinds* of substrings. While I might argue that this is a foundation of understanding, let's do something fun instead.
 
+The problem we face is to determine what has changed when a regulation is modified via a notice. Unfortunately, the pin-point accuracy that we need appears only in english phrases like 
+```
+4. Section 1005.32 is amended by revising paragraphs (b)(2)(ii) and (c)(3), adding paragraph (b)(3), revising paragraph (c)(4) and removing paragraph (c)(5) to read as follows
+```
+We can certainly parse out some of the citations, but we won't understand what's happening to the text with these citations alone. Instead, let's focus on the parts of this sentence that we care about.
+
+Notably, we only really care about citations and verbs ("revising", "adding", "removing"). Citations will play both the roles of context and nouns (i.e. what's being modified). We can reduce the sentence into a sequence of "tokens", in this case becoming
+```
+[Citation, Verb, Citation, Citation, Verb, Citation, Verb, Citation, Verb, Citation]
+```
+with each Citation keeping track of its (partial) citation information and each Verb knowing which action is being performed, as well as the active/passive voice ("revising" vs. "revised").
+
+We next convert all passive verbs into their corresponding active form by changing the order of the tokens. For example, "paragraph (b) is revised" gets converted into "revising paragraph (b)" in token form. Next, we can carry citation information from left to right. In this sentence, "Section 1005.32" carries context to each of the other paragraphs, filling in their partial citation information. 
+
+Finally, we can step through our list of tokens, keeping track of which modification mode we are in. We'd see "Section 1005.32" first, but since we start with no mode set, we will ignore it. We then see "revising" and set our modification mode correspondingly. We can therefore mark each of the next two citations as "modified". We then hit an "adding" verb, so we switch modes and mark the following citation as "added". We continue this way, switching modes and marking citations until the whole sentence is parsed.
+
 ## XML: So Much Structure, So Little Meaning
