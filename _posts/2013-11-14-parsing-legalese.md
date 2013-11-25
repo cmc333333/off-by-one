@@ -68,4 +68,6 @@ for cit in [citations.head] + citations.tail:
 
 ## What About Meaning?
 
+Thusfar, we have matched text, searched for markers, and retrieved sophisticated values out of the text. I can understand why this might feel like a bit of a let down - the parse isn't doing any magic. It doesn't know what sentences mean, it simply knows how to find and retrieve specific *kinds* of substrings. While I might argue that this is a foundation of understanding, let's do something fun instead.
+
 ## XML: So Much Structure, So Little Meaning
