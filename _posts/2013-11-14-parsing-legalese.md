@@ -28,6 +28,14 @@ Regexes also let us *retrieve* matching text. In our example above, we could det
 
 Regular expressions serve as both a low-ish level tool for parsing and as a building block on which almost all parsing libraries will build. Understanding them will help you debug problems with higher-level tools as well as know their fundamental limitations.
 
+## When is an (i) not and (i)?
+
+Regulations generally follow a relatively struct hierarchy, where sections are broken into many levels of paragraphs and subparagraphs. The levels begin with the lower-case alphabet, then arabic numerals, followed by roman numerals, the upper-case alphabet, and then italic versions of many of these. Paragraphs each have a "marker", indicating where the paragraph begins and giving it a reference, but these markers may not always be at the beginning of a line. This means that, to find paragraphs, we'll need to search for markers *throughout* the line.
+
+It's not a simple matter of starting a new paragraph whenever a marker is found, however. Paragraph markers are also sprinkled throughout the regulation inside citations to *other* paragraphs. To solve this issue, we can run a citation parser (touched on shortly) to find the citations within a text and ignore paragraph markers found within them.
+
+There's also a pesky matter of ambiguity. Many of the roman numerals look a heck of a lot like members of the lower-case alphabet. Further, when using plain text as a source, all italics are lost, so the deepest layers of the paragraph tree are indistinguishable from their parents. Luckily, we can both keep track of what we have seen before (i.e. what *could* the next marker be) as well as peek forward to see what marker follows. If a (i)-marker is followed by a (ii) or a (j), we can deduce exactly to which level in the tree the (i) corresponds.
+
 ## Parser Combinators: Not As Scary As They Sound
 
 Regular expressions certainly require additional mental overhead by future developers, as they must generally "run" the expression in their head to see what it does. Well-named expressions help a bit, but the syntax for naming capture groups in generally quite ugly. Further, combining expressions is error-prone and leads to even more indecipherable code.
@@ -44,7 +52,19 @@ assert(parsed.part == "1234")
 assert(parsed.section == "56")
 ```
 
-Parser combinators allow us to match relatively sophisticated citations, such as phrases which include multiple references separated by conjunction text. The parameter `listAllMatches` tells pyparsing to "collect" all the phrases which match
+Parser combinators allow us to match relatively sophisticated citations, such as phrases which include multiple references separated by conjunction text. The parameter `listAllMatches` tells pyparsing to "collect" all the phrases which match our request. In this case, that means we can handle each citation by walking through the list.
+
+```
+citations = (
+    citation.copy().setResultsName("head")
+    + ZeroOrMore(conj_phrase 
+                 + citation.copy().setResultsName("tail",
+                                                  listAllMatches=True)))
+
+cits = citations.parseString(text)
+for cit in [citations.head] + citations.tail:
+    handleCitation(cit)
+```
 
 ## What About Meaning?
 
