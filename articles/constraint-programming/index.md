@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "SQL Sudoku: Constraint Programming"
+author: "CM Lubinski"
 published: true
 ---
 

@@ -1,6 +1,7 @@
 ---
 published: true
 title: The Static CMS
+author: CM Lubinski
 layout: post
 ---
 
