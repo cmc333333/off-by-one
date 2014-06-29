@@ -3,6 +3,11 @@ published: true
 title: The Static CMS
 author: CM Lubinski
 layout: post
+description: >
+  Dynamic content management systems may not be suited to certain, common work
+  loads. We consider an alternative in the form of static site generators,
+  including flexible editors. When is this alternative appropriate and how can
+  we emulate dynamism within that paradigm?
 ---
 
 Despite the recent advances and enthusiasm in the database space, there is a growing segment of developers who argue that dynamically generated content is overkill for most web sites. Individual blogs, brochure websites, and other content publishing apps are incredibly read heavy, and their content changes very infrequently. Further, modern content management systems (CMSes) require constant vigilance as new-found vulnerabilities are discovered each day and incompatible versions are released every few years.

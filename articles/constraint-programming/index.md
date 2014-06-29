@@ -3,6 +3,11 @@ layout: post
 title: "SQL Sudoku: Constraint Programming"
 author: "CM Lubinski"
 published: true
+description: >
+  Sudoku problems can be solved using many different types of algorithms, but
+  utilizing a relational database might not jump to mind. Using SQL as a
+  spring board, we introduce the basic concepts of constraint programming. The
+  methodology is used to easily and concisely solve sudoku-like problems.
 ---
 
 Consider the game of Sudoku, most commonly played on a nine-by-nine grid of cells, where each cell may contain one of the integers 1 through 9. The game stipulates that each row must contain only unique elements, as must each column, and each of the nine, three-by-three sub-boards. Individual games are played with some cells on the board initially occupied, leaving the player to deduce the remaining values.

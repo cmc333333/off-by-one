@@ -113,7 +113,7 @@ ul.posts span {
   text-align: center;
 }
 #header .offbyon {
-  background-color: #26ade4;
+  background-color: #66a7ca;
   color: #fff;
   padding-right: 1px;
   padding-left: 1em;
@@ -121,7 +121,7 @@ ul.posts span {
 }
 #header h1 a {
   text-decoration: none;
-  color: #26ade4;
+  color: #66a7ca;
 }
 
 /**
@@ -141,4 +141,23 @@ ul.posts span {
 }
 .article-body {
   text-align: justify;
+}
+
+/**
+ * Home/Listing
+ **/
+#home .article {
+  margin: 1em;
+}
+#home .article h3 {
+  margin-top: 2em;
+  font-size: large;
+}
+#home .article p {
+  text-align: justify;
+  padding: 0 3em;
+}
+#home .article h3 a {
+  text-decoration: none;
+  color: #598ec1;
 }
